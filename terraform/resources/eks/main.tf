@@ -221,6 +221,7 @@ module "eks" {
       username = module.eks_admins_iam_role.iam_role_name
       groups   = ["system:masters"]
     },
+   ]
   aws_auth_users = [
     {
       userarn  = "arn:aws:iam::647712509431:user/vishalarora"
