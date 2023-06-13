@@ -213,22 +213,16 @@ module "eks" {
 
 }
 
-data "aws_eks_cluster" "default" {
-  name = module.eks.cluster_id
-}
-
 data "aws_eks_cluster_auth" "default" {
-  name = module.eks.cluster_id
+name = module.eks.cluster_name
 }
 
 provider "kubernetes" {
-  experiments {
-    manifest_resource = true
-  }
-  host                   = data.aws_eks_cluster.default.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.default.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.default.token
+host = module.eks.cluster_endpoint
+cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+token = data.aws_eks_cluster_auth.default.token
 }
+
 
 # Simple IAM Policy creation to allow EKS access
 module "allow_eks_access_iam_policy" {
