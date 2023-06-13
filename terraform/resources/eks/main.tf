@@ -134,16 +134,6 @@ module "eks" {
       tags = {
         Environment             = "dev"
         Terraform               = "true"
-        "ua:environment"        = "dev"
-        "ua:name"               = "eksnode"
-        "ua:owner"              = "dsoteam"
-        "ua:product"            = "ecomm"
-        "ua:project"            = "dso"
-        "ua:processing-stage"   = "test"
-        "ua:personal-protected" = "true"
-        "ua:compliance"         = "true"
-        "ua:created-by"         = "dsoteam"
-        "ua:awscleanup"         = "no"
       }
       labels = {
         Environment                  = "dev"
@@ -222,6 +212,16 @@ module "eks" {
   ]
 
 }
+
+provider "kubernetes" {
+  experiments {
+    manifest_resource = true
+  }
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
+}
+
 # Simple IAM Policy creation to allow EKS access
 module "allow_eks_access_iam_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
