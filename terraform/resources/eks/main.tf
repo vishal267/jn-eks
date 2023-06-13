@@ -203,6 +203,7 @@ module "eks" {
 
 
  # manage_aws_auth_configmap = false
+   create_aws_auth_configmap = true
    manage_aws_auth_configmap = true
   
   aws_auth_roles = [
@@ -221,22 +222,6 @@ module "eks" {
   ]
 
 }
-data "aws_eks_cluster" "default" {
-  name = module.eks.cluster_id
-}
-
-data "aws_eks_cluster_auth" "default" {
-  name = module.eks.cluster_id
-}
-
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.default.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.default.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.default.token
-}
-
-
-
 # Simple IAM Policy creation to allow EKS access
 module "allow_eks_access_iam_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
