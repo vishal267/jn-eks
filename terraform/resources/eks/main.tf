@@ -202,16 +202,6 @@ module "eks" {
       tags = {
         Environment             = "dev"
         Terraform               = "true"
-        "ua:environment"        = "dev"
-        "ua:name"               = "eksnode"
-        "ua:owner"              = "dsoteam"
-        "ua:product"            = "ecomm"
-        "ua:project"            = "dso"
-        "ua:processing-stage"   = "test"
-        "ua:personal-protected" = "true"
-        "ua:compliance"         = "true"
-        "ua:created-by"         = "dsoteam"
-        "ua:awscleanup"         = "no"
       }
     }
 
